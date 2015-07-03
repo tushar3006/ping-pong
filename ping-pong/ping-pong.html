@@ -1,0 +1,202 @@
+    <!doctype html>  
+    <html>  
+      <head>  
+	 
+        <meta charset="UTF-8" />  
+        <title>Ping Pong</title>  
+   
+	 </head>  
+    <body onkeypress=keypress(event) >  
+            <h1 style="text-align:center; font-family:'Comic Sans MS' ">Ping Pong</h1>
+	<div style="text-align:center; background-color:black ;margin:0 0 0 90px;color:#CCFF66;font-size:20px ;width:85%">
+	Player 1 :
+	<em  id=p1sc></em>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	Player 2 :
+	<em  id=p2sc></em>
+	</div>
+<br>	
+	<canvas id="canvas" style="margin:0 0 0 70px"width="1200" height="480"  onkeypress=keypress(event)>  
+             If you can see this, your browser does not support Canvas  
+            </canvas>  
+    <script>  
+    var canvas;    
+    var ctx;  
+    var x = 200;  
+    var y = 500;  
+    var dx = 2;  
+    var dy = 4;  
+    var width = 1200;  
+    var height = 500;   
+		
+	 var score={p1:0,p2:0};
+      
+    function circle(x,y,r) {  
+      ctx.beginPath();  
+      ctx.arc(x, y, r, 0, Math.PI*2, true);  
+      ctx.fill();
+		var pos={"posx":x,"posy":y};
+		return pos;
+		
+    }  
+      
+    function rect(x,y,w,h) {  
+      ctx.beginPath();  
+      ctx.rect(x,y,w,h);  
+      ctx.closePath();  
+      ctx.fill();
+      var val={'xpos':x,'ypos':y,'width':w,'height':h};	  
+	  return val;
+    }  
+      
+       
+    function reset() {  
+      ctx.clearRect(0, 0, width, height);  
+		
+	}  
+      
+    function init() {  
+      canvas = document.getElementById("canvas");  
+      ctx = canvas.getContext("2d"); 
+	  
+      return setInterval(animate, 1);  
+    }  
+     var player1=100,player2=50;
+		var increment={
+					p1:function(){
+					return function(){return player1+=15;}();
+						},
+					p2:function(){
+					return function(){return player2+=15;}();
+						}	};
+	    var decrement={p1:function(){
+					return function(){return player1-=15;}();
+						},
+						p2:function(){
+					return function(){return player2-=15;}();
+						}};
+	  
+	    		
+	  function keypress(event) {
+	  
+	   var x = event.which || event.keyCode;
+	   if(x === 100)
+		{
+		increment.p1();
+		//alert(player1);
+	   }
+	    if(x === 97)
+		{
+		decrement.p1();
+		//alert(player1);
+	   }
+	     if(x === 108)
+		{
+		increment.p2();
+		//alert(player1);
+	   }
+	    if(x === 106)
+		{
+		decrement.p2();
+		//alert(player1);
+	   }
+	   }
+	 
+	  
+	  
+	  
+    function animate() {  
+		document.getElementById("p1sc").innerHTML=score.p1;
+    document.getElementById("p2sc").innerHTML=score.p2;
+      reset();  
+      ctx.fillStyle = "#000000";  
+      rect(0,0,width,height);  
+      ctx.fillStyle = "#CCFF66";  
+     var c= circle(x, y, 10);  
+      if(flag===0)	
+	  alert(1);
+	  ctx.fillStyle = " #42A6FF";
+	  var p=rect(0,player1,15,150);
+	  var l=rect(width-15,player2,15,150);	  
+      
+	  var i=1;
+	  
+
+	   	  
+	 
+	//alert(c.posx+":"+c.posy+":"+l.xpos+":"+l.ypos);
+//check collisions
+	var flag;
+		if((c.posx===p.xpos-2)&&(c.posy<(p.height+p.ypos))&&c.posy>p.ypos){
+		
+		}
+
+		else if ((c.posx===p.xpos)&&((c.posy>(p.height+p.ypos))||c.posy<p.ypos))
+		{
+		flag=1
+		
+		
+	}		
+			if(player1>height){
+			player1=0;
+			}
+			else if(player1<0)
+			{player1=height-50;}
+			
+		if(player2>height)
+			{
+			player2=0;
+			}
+		else if(player2<0)
+			{player2=height-50;
+			}
+		
+		if((c.posx===l.xpos-11)&&(c.posy<(l.height+l.ypos))&&c.posy>l.ypos) 
+	{
+	
+	flag=0;
+	}
+      
+	  else if ((c.posx===width)&&((c.posy>(l.height+l.ypos))||c.posy<l.ypos))
+		{flag=2; }
+		
+		if(flag===1)
+		{score.p2+=1}
+		else if(flag===2)
+		{
+		score.p1+=1;
+		}
+		
+	
+	  if (x + dx > width || x+dx<0)
+        {dx = -dx;} 
+      if (y + dy > height || y + dy < 0)  
+        {dy = -dy;}  
+		
+		
+      
+      x += dx;  
+      y += dy;  
+	  
+	  if(score.p1>=10	)
+	  {
+	  alert("P1 wins");
+	  reset();
+	  score.p1=0;
+		score.p2=0;}
+	  else if(score.p2>=10)
+	  {
+	  alert("p2 wins");
+    reset();
+	  score.p1=0;
+		score.p2=0;}
+	}  
+	
+      
+    init();
+
+
+	</script>  
+
+	</body>  
+    </html>  
